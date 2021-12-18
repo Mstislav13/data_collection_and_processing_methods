@@ -31,28 +31,27 @@ if response.ok:
         about_info = about.text
         city = vac.find('div', {'data-qa': 'vacancy-serp__vacancy-address'})
         job_city = city.text
-        salary = vac.find('div', {'class': 'vacancy-serp-item__sidebar'})
+        salary = vac.find('span',
+                          {'data-qa': 'vacancy-serp__vacancy-compensation'})
         if not salary:
             min_sal = None
             max_sal = None
             cur_sal = None
         else:
-            salary_1 = salary.getText().replace(u'\xa0', u'')
-            # print()
+            salary_1 = salary.text.replace(u'\u202f', u'')
             salary_1 = re.split(r'\s|-', salary_1)
-            # print(salary_1)
             if salary_1[0] == 'от':
-                min_sal = int(salary_1[1]+salary_1[2])
+                min_sal = int(salary_1[1])
                 max_sal = None
-                cur_sal = salary_1[3]
+                cur_sal = salary_1[2]
             elif salary_1[0] == 'до':
                 min_sal = None
-                max_sal = int(salary_1[1]+salary_1[2])
-                cur_sal = salary_1[3]
+                max_sal = int(salary_1[1])
+                cur_sal = salary_1[2]
             else:
-                min_sal = int(salary_1[0]+salary_1[1])
-                max_sal = int(salary_1[3]+salary_1[4])
-                cur_sal = salary_1[5]
+                min_sal = int(salary_1[0])
+                max_sal = int(salary_1[2])
+                cur_sal = salary_1[3]
 
         site = url
 
