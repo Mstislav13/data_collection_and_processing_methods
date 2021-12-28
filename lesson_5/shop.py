@@ -48,3 +48,5 @@ for n_el in range(len(items_names)):
         pass
 
 pprint(goods_list)
+
+driver.close()
